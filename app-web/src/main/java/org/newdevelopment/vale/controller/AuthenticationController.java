@@ -1,5 +1,6 @@
 package org.newdevelopment.vale.controller;
 
+import org.newdevelopment.vale.authorization.JWTAuthService;
 import org.newdevelopment.vale.data.exception.AuthenticationException;
 import org.newdevelopment.vale.data.model.UserAuth;
 import org.newdevelopment.vale.service.AuthenticationService;
@@ -14,17 +15,19 @@ import org.springframework.web.bind.annotation.RestController;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
-import static org.newdevelopment.vale.data.util.sql.AppConstants.*;
+import static org.newdevelopment.vale.data.util.AppConstants.*;
 
 @RestController
 @RequestMapping(value = "auth")
 public class AuthenticationController {
 
     private AuthenticationService authenticationService;
+    private JWTAuthService jwtAuthService;
 
     @Autowired
     public AuthenticationController(AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
+        this.jwtAuthService = JWTAuthService.getInstance();
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.POST)
@@ -50,6 +53,9 @@ public class AuthenticationController {
             throw new AuthenticationException(INVALID_LOGIN, HttpStatus.BAD_REQUEST);
         }
 
-        return ResponseEntity.ok().body(authenticated);
+        //Create JWT
+        String jwt = jwtAuthService.generateToken(userAuth);
+
+        return ResponseEntity.ok().body(jwt);
     }
 }

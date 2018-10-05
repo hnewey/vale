@@ -65,7 +65,7 @@
 
 		<dependency>
 			<groupId>org.newdevelopment.vale</groupId>
-			<artifactId>data</artifactId>
+			<artifactId>app-data</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 

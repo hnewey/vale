@@ -2,6 +2,7 @@ package org.newdevelopment.vale.controller.error;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.newdevelopment.vale.data.exception.AuthenticationException;
+import org.newdevelopment.vale.data.exception.AuthorizationException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -20,6 +21,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(AuthenticationException.class)
     protected ResponseEntity<Object> handleAuthenticationException(AuthenticationException ae) {
+        ApiError apiError = new ApiError(ae.getStatus());
+        apiError.setMessage(ae.getMessage());
+        apiError.setDebugMessage(ae.getLocalizedMessage());
+        return buildResponseEntity(apiError);
+    }
+
+    @ExceptionHandler(AuthorizationException.class)
+    protected ResponseEntity<Object> handleAuthorizationException(AuthorizationException ae) {
         ApiError apiError = new ApiError(ae.getStatus());
         apiError.setMessage(ae.getMessage());
         apiError.setDebugMessage(ae.getLocalizedMessage());

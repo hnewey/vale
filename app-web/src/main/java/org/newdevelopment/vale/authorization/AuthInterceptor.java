@@ -1,6 +1,8 @@
-package org.newdevelopment.vale.data.util;
+package org.newdevelopment.vale.authorization;
 
 import org.jetbrains.annotations.NotNull;
+import org.newdevelopment.vale.authorization.util.AuthContext;
+import org.newdevelopment.vale.authorization.util.ThreadLocalAuthContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.*;
@@ -27,8 +29,15 @@ import java.util.Locale;
 @Service
 public class AuthInterceptor extends HandlerInterceptorAdapter {
 
+    private JWTAuthService jwtAuthService;
+
     private static final String BEARER = "bearer ";
     private static final String UNAUTHORIZED_MESSAGE = "Missing or invalid Session";
+
+    @Autowired
+    public AuthInterceptor() {
+        this.jwtAuthService = JWTAuthService.getInstance();
+    }
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
@@ -49,12 +58,18 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 
         if (sessionToken != null) {
             //a token was passed. Make sure it is valid
+            AuthContext authContext = new AuthContext();
+            authContext.setToken(sessionToken);
+            authContext.setAuthorizationResult(jwtAuthService.validateToken(sessionToken));
 
+            //Setting this ThreadLocalAuthContext is the whole point of this Interceptor
+            ThreadLocalAuthContext.setAuthContext(authContext);
             return true;
         }
-        httpServletResponse.addHeader(HttpHeaders.WARNING, UNAUTHORIZED_MESSAGE);
-        httpServletResponse.sendError(HttpStatus.UNAUTHORIZED.value(), UNAUTHORIZED_MESSAGE);
-        return false;
+//        httpServletResponse.addHeader(HttpHeaders.WARNING, UNAUTHORIZED_MESSAGE);
+//        httpServletResponse.sendError(HttpStatus.UNAUTHORIZED.value(), UNAUTHORIZED_MESSAGE);
+//        return false;
+        return true;
     }
 
     @Override

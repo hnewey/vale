@@ -1,4 +1,4 @@
-package org.newdevelopment.vale.data.util.sql;
+package org.newdevelopment.vale.data.util;
 
 public final class AppConstants {
 
@@ -12,6 +12,11 @@ public final class AppConstants {
 
     public static final String USERNAME_EXISTS = "username already exists";
     public static final String INVALID_LOGIN = "username or password is incorrect";
+
+    public static final String UNAUTHORIZED = "user is not authorized to perform this action";
+    public static final String BAD_TOKEN = "invalid token provided";
+
+    public static final String MISSING_INTERCEPTOR = "missing interceptor, AuthContext is null";
 
 
     //------------------------------------
