@@ -12,3 +12,4 @@ buildNumber.properties
 # IntelliJ
 *.iml
 .idea/
+target/*
