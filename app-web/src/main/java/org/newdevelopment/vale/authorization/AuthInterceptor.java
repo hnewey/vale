@@ -57,18 +57,16 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         }
 
         if (sessionToken != null) {
-            //a token was passed. Make sure it is valid
+            //a token was passed. Make sure it is valid and set AuthContext fields
             AuthContext authContext = new AuthContext();
             authContext.setToken(sessionToken);
+            authContext.setUsername(jwtAuthService.getUsername(sessionToken));
             authContext.setAuthorizationResult(jwtAuthService.validateToken(sessionToken));
 
             //Setting this ThreadLocalAuthContext is the whole point of this Interceptor
             ThreadLocalAuthContext.setAuthContext(authContext);
             return true;
         }
-//        httpServletResponse.addHeader(HttpHeaders.WARNING, UNAUTHORIZED_MESSAGE);
-//        httpServletResponse.sendError(HttpStatus.UNAUTHORIZED.value(), UNAUTHORIZED_MESSAGE);
-//        return false;
         return true;
     }
 

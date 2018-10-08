@@ -31,7 +31,7 @@ public class AuthenticationController {
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public ResponseEntity<Boolean> createNewUser(@RequestBody UserAuth userAuth) throws AuthenticationException, InvalidKeySpecException, NoSuchAlgorithmException {
+    public ResponseEntity<String> createNewUser(@RequestBody UserAuth userAuth) throws AuthenticationException, InvalidKeySpecException, NoSuchAlgorithmException {
 
         //check if username exists in the database already. If it does, throw username exists exception
         if (authenticationService.checkUsername(userAuth.getUsername())) {
@@ -41,7 +41,10 @@ public class AuthenticationController {
         //call auth service which will encrypt the password and add a salt to the user
         authenticationService.createNewUser(userAuth);
 
-        return ResponseEntity.noContent().build();
+        //generate new token for signed in user
+        String jwt = jwtAuthService.generateToken(userAuth);
+
+        return ResponseEntity.ok().body(jwt);
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)

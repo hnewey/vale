@@ -29,6 +29,17 @@ public class AuthHelper {
         return token;
     }
 
+    public String getUsername() throws AuthorizationException {
+        String username = getAuthContext().getUsername();
+
+        //should be impossible to reach this point without having thrown an exception during token validation
+        if (username == null) {
+            throw new AuthorizationException(BAD_TOKEN, HttpStatus.BAD_REQUEST);
+        }
+
+        return username;
+    }
+
     private AuthContext getAuthContext() throws AuthorizationException {
         if (ThreadLocalAuthContext.getAuthContext() == null) {
             throw new AuthorizationException(MISSING_INTERCEPTOR, HttpStatus.INTERNAL_SERVER_ERROR);
