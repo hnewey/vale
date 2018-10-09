@@ -3,11 +3,16 @@ package org.newdevelopment.vale.authorization;
 import org.newdevelopment.vale.authorization.util.AuthContext;
 import org.newdevelopment.vale.authorization.util.ThreadLocalAuthContext;
 import org.newdevelopment.vale.data.exception.AuthorizationException;
+import org.newdevelopment.vale.data.model.UserAuth;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 
 import static org.newdevelopment.vale.data.util.AppConstants.*;
 
+@Service
 public class AuthHelper {
+
+    private JWTAuthService jwtAuthService = JWTAuthService.getInstance();
 
     public Boolean isAuthorized() throws AuthorizationException {
         Boolean authorized = getAuthContext().getAuthorizationResult();
@@ -38,6 +43,10 @@ public class AuthHelper {
         }
 
         return username;
+    }
+
+    public String generateNewToken(UserAuth userAuth) {
+        return jwtAuthService.generateToken(userAuth);
     }
 
     private AuthContext getAuthContext() throws AuthorizationException {
