@@ -1,5 +1,6 @@
 package org.newdevelopment.vale.controller;
 
+import org.newdevelopment.vale.authorization.AuthHelper;
 import org.newdevelopment.vale.authorization.JWTAuthService;
 import org.newdevelopment.vale.data.exception.AuthenticationException;
 import org.newdevelopment.vale.data.model.UserAuth;
@@ -22,16 +23,17 @@ import static org.newdevelopment.vale.data.util.AppConstants.*;
 public class AuthenticationController {
 
     private AuthenticationService authenticationService;
-    private JWTAuthService jwtAuthService;
+    private AuthHelper authHelper;
 
     @Autowired
-    public AuthenticationController(AuthenticationService authenticationService) {
+    public AuthenticationController(AuthenticationService authenticationService,
+                                    AuthHelper authHelper) {
         this.authenticationService = authenticationService;
-        this.jwtAuthService = JWTAuthService.getInstance();
+        this.authHelper = authHelper;
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public ResponseEntity<Boolean> createNewUser(@RequestBody UserAuth userAuth) throws AuthenticationException, InvalidKeySpecException, NoSuchAlgorithmException {
+    public ResponseEntity<String> createNewUser(@RequestBody UserAuth userAuth) throws AuthenticationException, InvalidKeySpecException, NoSuchAlgorithmException {
 
         //check if username exists in the database already. If it does, throw username exists exception
         if (authenticationService.checkUsername(userAuth.getUsername())) {
@@ -41,7 +43,10 @@ public class AuthenticationController {
         //call auth service which will encrypt the password and add a salt to the user
         authenticationService.createNewUser(userAuth);
 
-        return ResponseEntity.noContent().build();
+        //generate new token for signed in user
+        String token = authHelper.generateNewToken(userAuth);
+
+        return ResponseEntity.ok().body(token);
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
@@ -53,9 +58,9 @@ public class AuthenticationController {
             throw new AuthenticationException(INVALID_LOGIN, HttpStatus.BAD_REQUEST);
         }
 
-        //Create JWT
-        String jwt = jwtAuthService.generateToken(userAuth);
+        //generate new token for signed in user
+        String token = authHelper.generateNewToken(userAuth);
 
-        return ResponseEntity.ok().body(jwt);
+        return ResponseEntity.ok().body(token);
     }
 }

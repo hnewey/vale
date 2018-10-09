@@ -71,6 +71,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>3.4.0</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.newdevelopment.vale</groupId>
             <artifactId>app-service</artifactId>
             <version>0.0.1-SNAPSHOT</version>

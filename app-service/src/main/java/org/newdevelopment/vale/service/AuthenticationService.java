@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
-import static org.newdevelopment.vale.data.util.sql.AppConstants.*;
+import static org.newdevelopment.vale.data.util.AppConstants.*;
 
 @Component
 public class AuthenticationService {
