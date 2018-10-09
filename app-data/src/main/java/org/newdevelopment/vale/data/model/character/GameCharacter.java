@@ -5,20 +5,20 @@ package org.newdevelopment.vale.data.model.character;
  * <p><b>Warrior: Strength-based. Uses melee weapons, shields, armor</b><br>
  *      <u>Expertise Classes (primary ability/secondary ability):</u><br>
  *      Champion: (Strength/Agility) All-around strong fighter and harder to hit.<br>
- *      Barbarian: (Strength/Knowlege) Fierce warrior with high chance of crit<br>
+ *      Barbarian: (Strength/Knowlege) Fierce warrior with high chance to crit<br>
  *      Paladin: (Strength/Wisdom) High armor rating, can heal or has weak magic attacks?
- * </p><br>
+ * </p>
  * <p><b>Bowman: Agility-based. Uses ranged weapons, light armor</b><br>
  *      <u>Bowman Expertise Classes</u><br>
- *      Marksman: (Agility-Knowledge) Deadly archer with high chance of crit<br>
- *      Rogue: (Agility-Strength) Quick fighter that can do significant damage<br>
- *      Ranger: (Agility-Wisdom) Competent fighter with healing skills<br>
- * </p><br>
+ *      Marksman: (Agility/Knowledge) Deadly archer with high chance to crit<br>
+ *      Rogue: (Agility/Strength) Quick fighter that can do significant damage<br>
+ *      Ranger: (Agility/Wisdom) Competent fighter with healing skills
+ * </p>
  * <p><b>Adept: Knowledge-based. Uses melee weapons and magic</b><br>
  *     <u>Adept Expertise Classes</u><br>
  *     Mage: (Knowledge/Strength) Dangerous fighter utilizing both magic and melee weapons<br>
  *     Necromancer: (Knowledge/Agility) Quick wizard susceptible to other magic users<br>
- *     Sorcerer: (Knowledge/Wisdom) Deadly magic user but fragile when attacked with melee weapons<br>
+ *     Sorcerer: (Knowledge/Wisdom) Deadly magic user but fragile when attacked with melee weapons
  * </p>
  */
 public abstract class GameCharacter {
