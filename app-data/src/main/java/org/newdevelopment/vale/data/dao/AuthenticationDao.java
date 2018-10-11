@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.newdevelopment.vale.data.util.sql.AppConstants.*;
+import static org.newdevelopment.vale.data.util.AppConstants.*;
 import static org.newdevelopment.vale.data.util.sql.AuthSql.*;
 
 @Component
