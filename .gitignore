@@ -16,6 +16,6 @@ buildNumber.properties
 *.iml
 .idea/
 *.class
-target
+**/target
 .classpath
 .settings

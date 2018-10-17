@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static org.newdevelopment.vale.data.util.sql.AppConstants.*;
+import static org.newdevelopment.vale.data.util.AppConstants.*;
 
 public class UserTableEntryRowMapper implements RowMapper<UserTableEntry> {
 
