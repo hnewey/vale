@@ -3,6 +3,7 @@ package org.newdevelopment.vale.controller.error;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.newdevelopment.vale.data.exception.AuthenticationException;
 import org.newdevelopment.vale.data.exception.AuthorizationException;
+import org.newdevelopment.vale.data.exception.GameException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -32,6 +33,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         ApiError apiError = new ApiError(ae.getStatus());
         apiError.setMessage(ae.getMessage());
         apiError.setDebugMessage(ae.getLocalizedMessage());
+        return buildResponseEntity(apiError);
+    }
+
+    @ExceptionHandler(GameException.class)
+    protected ResponseEntity<Object> handleGameException(GameException ge) {
+        ApiError apiError = new ApiError(ge.getStatus());
+        apiError.setMessage(ge.getMessage());
+        apiError.setDebugMessage(ge.getLocalizedMessage());
         return buildResponseEntity(apiError);
     }
 

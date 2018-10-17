@@ -1,4 +1,7 @@
 target/
+app-data/target/
+app-service/target/
+app-web/target/
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
