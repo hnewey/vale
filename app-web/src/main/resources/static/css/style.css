@@ -19,3 +19,7 @@ font-family: 'Marcellus SC', serif;
     cursor: default !important;
 }
 
+.hidden {
+    display: none;
+}
+
