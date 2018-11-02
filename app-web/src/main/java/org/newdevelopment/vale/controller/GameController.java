@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import org.newdevelopment.vale.authorization.AuthHelper;
 import org.newdevelopment.vale.data.exception.AuthorizationException;
 import org.newdevelopment.vale.data.exception.GameException;
+import org.newdevelopment.vale.data.model.Game;
 import org.newdevelopment.vale.data.model.GameState;
 import org.newdevelopment.vale.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 import static org.newdevelopment.vale.data.util.AppConstants.*;
 
 @RestController
-@RequestMapping(value = "game")
+@RequestMapping(value = "/game")
 public class GameController {
 
     private GameService gameService;
@@ -37,6 +40,12 @@ public class GameController {
         Integer gameId = gameService.createNewGame(username, gameState);
 
         return ResponseEntity.ok().body(gameId);
+    }
+
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    public List<Game> getAllGames() throws AuthorizationException {
+
+        return gameService.getAllGames(authHelper.getUsername());
     }
 
 }
