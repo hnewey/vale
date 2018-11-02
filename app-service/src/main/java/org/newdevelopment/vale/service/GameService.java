@@ -4,9 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import jersey.repackaged.com.google.common.base.Preconditions;
 import org.newdevelopment.vale.data.dao.GameDao;
 import org.newdevelopment.vale.data.exception.GameException;
+import org.newdevelopment.vale.data.model.Game;
 import org.newdevelopment.vale.data.model.GameState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 import static org.newdevelopment.vale.data.util.AppConstants.*;
 
@@ -26,5 +29,11 @@ public class GameService {
         Preconditions.checkArgument(gameState.hasNoNullValues(), NULL_STATE_DATA);
 
         return gameDao.createNewGame(username, gameState);
+    }
+
+    public List<Game> getAllGames(String username) {
+        Preconditions.checkArgument(username != null, NULL_USERNAME);
+
+        return gameDao.getAllGames(username);
     }
 }

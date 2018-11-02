@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vale</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/rpg-awesome.css">
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+</head>
+<script>
+    var GAMES;
+    var TOKEN;
+
+    document.onkeypress = function () {
+        showMenu();
+    };
+    document.onclick = function () {
+        showMenu();
+    };
+
+    function showMenu() {
+        document.getElementById("start").style.display = "none";
+        document.getElementById("menu").style.display = "block";
+    }
+
+    function newGame() {
+        //go to new_game.html
+    }
+
+    function loadGame() {
+        //show possible games to load
+        alert(GAMES);
+    }
+
+    $(document).ready(function() {
+        //load player's games so they're ready
+        $.ajax({
+            url: '/game/all',
+            headers: {
+                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNTQxMTM3OTM5fQ.4a53HDveOJIXqWAcHQdfHaVj85PMwWQ-1MbGGzUBVAA'
+            },
+            method: 'GET',
+            success: function (data) {
+                GAMES = data;
+            }
+        });
+    });
+</script>
+<style>
+    @keyframes example {
+        0% {opacity: 0;}
+        100% {opacity: 100;}
+    }
+    #middlePanel {
+        width: 80vw;
+        height: 108vh;
+        text-align: center;
+        margin: 0 auto;
+    }
+    #body {
+        background-color: #3b3d42;
+        overflow-y: hidden;
+        background: url(img/cover.jpg) no-repeat;
+        background-size: 110% 100%;
+        color: yellow;
+    }
+    #title {
+        position: fixed;
+        left: 60vh;
+        top: 20vh;
+        font-size: 40px;
+        font-family: 'Marcellus SC', sans-serif;
+    }
+    #start {
+        position: fixed;
+        left: 58vh;
+        top: 50vh;
+        font-family: cursive;
+        opacity: 0;
+        animation-name: example;
+        animation-duration: 2s;
+        animation-delay: 4s;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+    }
+    #menu {
+        position: fixed;
+        left: 60vh;
+        top: 40vh;
+        font-size: 30px;
+    }
+    .menu_item {
+        padding-top: 2vh;
+    }
+    .menu_item:hover {
+
+    }
+    #menu_top_level {
+        list-style-type: none;
+        padding: inherit;
+    }
+</style>
+
+<body id="body">
+<div id="middlePanel">
+    <div id="title">
+        <h1>Vale</h1>
+        <h4></h4>
+    </div>
+    <div id="start">
+        <p>(Press any button to begin)</p>
+    </div>
+    <div id="menu" style="display:none;">
+        <ul id="menu_top_level">
+            <li class="menu_item" id="new_game" onclick="newGame()">
+                New Game
+            </li>
+            <li class="menu_item" id="load_game" onclick="loadGame()">
+                Load Game
+            </li>
+            <li class="menu_item" id="stats" onclick="showStats()">
+                Player Stats
+            </li>
+            <li class="menu_item" id="credits" onclick="showCredits()">
+                Credits
+            </li>
+        </ul>
+        <ul id="menu_load_level_1" class="hidden">
+            <!--Populate with ajax call-->
+        </ul>
+    </div>
+</div>
+</body>
+</html>
