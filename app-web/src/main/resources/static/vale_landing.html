@@ -29,23 +29,76 @@
     }
 
     function loadGame() {
+        var menuList = document.getElementById("menu_load_level_1");
+        var menu = document.getElementById("menu_top_level");
+
+        //hide original menu and display menu with possible games to load
+        menuList.classList.remove("hidden");
+        menu.classList.add("hidden");
+    }
+
+    function backFromLoad() {
+        var menuList = document.getElementById("menu_load_level_1");
+        var menu = document.getElementById("menu_top_level");
+
+        menuList.classList.add("hidden");
+        menu.classList.remove("hidden");
+    }
+
+    function createGamesList() {
+        var menuList = document.getElementById("menu_load_level_1");
+
         //show possible games to load
-        alert(GAMES);
+        for (var i = 0; i < GAMES.length; i++) {
+            var game = GAMES[i];
+            var listItem = document.createElement("li");
+            listItem.innerHTML = game.gameId;
+            listItem.classList.add("menu_item");
+            listItem.setAttribute("onclick", "alert('Load game " + game.gameId + "')");
+            menuList.appendChild(listItem);
+        }
+        var backButton = document.createElement("li");
+        backButton.innerHTML = "Back";
+        backButton.classList.add("menu_item");
+        backButton.setAttribute("onclick", "backFromLoad()");
+        menuList.appendChild(backButton);
     }
 
     $(document).ready(function() {
         //load player's games so they're ready
-        $.ajax({
-            url: '/game/all',
-            headers: {
-                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNTQxMTM3OTM5fQ.4a53HDveOJIXqWAcHQdfHaVj85PMwWQ-1MbGGzUBVAA'
-            },
-            method: 'GET',
-            success: function (data) {
-                GAMES = data;
-            }
+        get('/game/all', function (data) {
+            GAMES = data;
+            createGamesList();
         });
     });
+
+    function get(url, callback) {
+        $.ajax({
+            url: url,
+            headers: {
+                //TODO: Replace with saved token cookie eventually
+                'Authorization': 'Bearer admin'
+            },
+            method: 'GET',
+            success: callback
+        });
+    }
+
+    function post(url, body, callback) {
+        $.ajax({
+            url:url,
+            headers: {
+                //TODO: Replace with saved token cookie eventually
+                'Authorization': 'Bearer admin'
+            },
+            type:"POST",
+            data:JSON.stringify(body),
+            contentType:"application/json; charset=utf-8",
+            dataType:"json",
+            success: callback
+        });
+    }
+
 </script>
 <style>
     @keyframes example {
@@ -96,9 +149,10 @@
     .menu_item:hover {
 
     }
-    #menu_top_level {
+    .menu {
         list-style-type: none;
         padding: inherit;
+        width: 20vh;
     }
 </style>
 
@@ -112,7 +166,7 @@
         <p>(Press any button to begin)</p>
     </div>
     <div id="menu" style="display:none;">
-        <ul id="menu_top_level">
+        <ul id="menu_top_level" class="menu">
             <li class="menu_item" id="new_game" onclick="newGame()">
                 New Game
             </li>
@@ -126,8 +180,8 @@
                 Credits
             </li>
         </ul>
-        <ul id="menu_load_level_1" class="hidden">
-            <!--Populate with ajax call-->
+        <ul id="menu_load_level_1" class="menu hidden">
+            <!--Populated with player's saved games retrieved through ajax call-->
         </ul>
     </div>
 </div>

@@ -19,3 +19,6 @@ CREATE TABLE GAME
   PRIMARY KEY (game_id),
   FOREIGN KEY (username) REFERENCES USER_TABLE ON DELETE CASCADE
 );
+
+INSERT INTO USER_TABLE (username, password, salt)
+VALUES ('admin', '{admin}', '{1}');

@@ -33,6 +33,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 
     private static final String BEARER = "bearer ";
     private static final String UNAUTHORIZED_MESSAGE = "Missing or invalid Session";
+    private static final String ADMIN_USERNAME = "admin";
 
     @Autowired
     public AuthInterceptor() {
@@ -60,8 +61,16 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
             //a token was passed. Make sure it is valid and set AuthContext fields
             AuthContext authContext = new AuthContext();
             authContext.setToken(sessionToken);
-            authContext.setUsername(jwtAuthService.getUsername(sessionToken));
-            authContext.setAuthorizationResult(jwtAuthService.validateToken(sessionToken));
+
+            //TODO: Remove when not testing. Allows for 'Bearer admin' to always succeed
+            if (sessionToken.equals(ADMIN_USERNAME)) {
+                authContext.setUsername("admin");
+                authContext.setAuthorizationResult(true);
+            }
+            else {
+                authContext.setUsername(jwtAuthService.getUsername(sessionToken));
+                authContext.setAuthorizationResult(jwtAuthService.validateToken(sessionToken));
+            }
 
             //Setting this ThreadLocalAuthContext is the whole point of this Interceptor
             ThreadLocalAuthContext.setAuthContext(authContext);

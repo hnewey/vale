@@ -45,7 +45,12 @@ public class GameController {
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public List<Game> getAllGames() throws AuthorizationException {
 
-        return gameService.getAllGames(authHelper.getUsername());
+        String username = authHelper.getUsername();
+        if (username == null) {
+            throw new AuthorizationException("Invalid Authorization header", HttpStatus.UNAUTHORIZED);
+        }
+
+        return gameService.getAllGames(username);
     }
 
 }
