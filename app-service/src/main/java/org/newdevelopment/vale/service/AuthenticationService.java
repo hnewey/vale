@@ -4,7 +4,7 @@ import jersey.repackaged.com.google.common.base.Preconditions;
 import org.newdevelopment.vale.data.dao.AuthenticationDao;
 import org.newdevelopment.vale.data.exception.AuthenticationException;
 import org.newdevelopment.vale.data.model.UserAuth;
-import org.newdevelopment.vale.data.model.UserTableEntry;
+import org.newdevelopment.vale.data.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -40,11 +40,16 @@ public class AuthenticationService {
         authenticationDao.createUser(userAuth.getUsername(), encryptedPassword, userSalt);
     }
 
-    public Boolean authenticateUser(UserAuth userAuth) throws InvalidKeySpecException, NoSuchAlgorithmException {
+    public Boolean authenticateUser(UserAuth userAuth) throws InvalidKeySpecException, NoSuchAlgorithmException, AuthenticationException {
         Preconditions.checkArgument(userAuth.getUsername() != null, NULL_USERNAME);
         Preconditions.checkArgument(userAuth.getPassword() != null, NULL_PASSWORD);
 
-        UserTableEntry user = authenticationDao.getUserInfo(userAuth.getUsername());
+        User user;
+        try {
+            user = authenticationDao.getUser(userAuth.getUsername());
+        } catch (Exception e) {
+            throw new AuthenticationException(INVALID_LOGIN, HttpStatus.BAD_REQUEST);
+        }
 
         //test provided password and return result
         return passwordEncryptionService.authenticate(userAuth.getPassword(), user.getPassword(), user.getSalt());

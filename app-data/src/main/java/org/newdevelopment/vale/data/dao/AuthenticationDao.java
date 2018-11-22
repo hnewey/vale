@@ -2,8 +2,7 @@ package org.newdevelopment.vale.data.dao;
 
 import org.newdevelopment.vale.data.dao.mapper.UserTableEntryRowMapper;
 import org.newdevelopment.vale.data.exception.AuthenticationException;
-import org.newdevelopment.vale.data.model.UserAuth;
-import org.newdevelopment.vale.data.model.UserTableEntry;
+import org.newdevelopment.vale.data.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -32,7 +31,7 @@ public class AuthenticationDao {
         return jdbcTemplate.queryForObject(SELECT_USERNAME_AVAILABLE, new Object[]{username}, Boolean.class);
     }
 
-    public UserTableEntry getUserInfo(String username) {
+    public User getUser(String username) {
         return jdbcTemplate.queryForObject(SELECT_USER, new Object[]{username}, userTableEntryRowMapper);
     }
 
