@@ -1,6 +1,6 @@
 package org.newdevelopment.vale.data.model;
 
-public class UserTableEntry {
+public class User {
 
     private String username;
     private byte[] password;
