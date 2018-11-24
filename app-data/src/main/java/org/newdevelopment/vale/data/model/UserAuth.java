@@ -19,3 +19,4 @@ public class UserAuth {
         this.password = password;
     }
 }
+

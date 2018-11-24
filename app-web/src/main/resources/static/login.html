@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vale</title>
+
+    <link rel="stylesheet" href="css/vale_landing.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/rpg-awesome.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/login.css">
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+</head>
+
+<body id="body">
+<div class="container">
+    <div class="row">
+
+        <div id="middlePanel">
+            <div id="login-header">
+                <h1>Login</h1>
+                <h4></h4>
+            </div>
+
+            <div class="col-lg-6">
+                <div id="login-form">
+                    <form>
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input class="form-control" id="username" placeholder="Username">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password" placeholder="Password">
+                        </div>
+                        <button type="submit" onclick="authenticate()" class="btn btn-danger">Login</button>
+                    </form>
+                </div>
+            </div>
+
+            <div id="register-header">
+                <h1>Register</h1>
+                <h4></h4>
+            </div>
+
+            <div class="col-lg-6">
+                <div id="registration-form">
+
+                    <form>
+                        <div class="form-group">
+                            <label for="firstName">First Name</label>
+                            <input class="form-control" id="firstName" placeholder="First Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name</label>
+                            <input class="form-control" id="lastName" placeholder="Last Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="registerUsername">Username</label>
+                            <input class="form-control" id="registerUsername" placeholder="Username">
+                        </div>
+                        <div class="form-group">
+                            <label for="registerPassword">Password</label>
+                            <input type="password" class="form-control" id="registerPassword" placeholder="Password">
+                        </div>
+                        <div class="form-group">
+                            <label for="registerPasswordConfirm">Confirm Password</label>
+                            <input type="password" class="form-control" id="registerPasswordConfirm" placeholder="Password Confirm">
+                        </div>
+                        <button type="submit" class="btn btn-danger" onclick="registerUser()">Create Account</button>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script>
+    function registerUser() {
+        var firstName = document.getElementById("firstName").value;
+        var lastName = document.getElementById("lastName").value;
+        var registerUsername = document.getElementById("registerUsername").value;
+        var registerPassword = document.getElementById("registerPassword").value;
+        var registerPasswordConfirm = document.getElementById("registerPasswordConfirm").value;
+
+        var createAcctRequest = {"firstName": firstName, "lastName": lastName, "username": registerUsername,
+        "password": registerPassword, "passwordConfirm": registerPasswordConfirm};
+
+        post("/auth/new", createAcctRequest, function (data, status) {
+            if (status == 200)
+                window.location.href = "/vale_landing.html";
+        });
+    }
+
+    function authenticate() {
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+
+        var credentials = {"username": username, "password": password};
+
+        post("/auth", credentials, function (data, status) {
+            if (status == 200) {
+                window.location.href = "/vale_landing.html";
+            }
+        });
+    }
+
+    function post(url, body, callback) {
+        $.ajax({
+            url: url,
+            headers: {
+                //TODO: Replace with saved token cookie eventually
+                'Authorization': 'Bearer admin'
+            },
+            type: "POST",
+            data: JSON.stringify(body),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: callback
+        });
+    }
+</script>
+
+</html>

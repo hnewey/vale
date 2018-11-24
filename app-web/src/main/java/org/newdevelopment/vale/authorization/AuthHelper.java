@@ -3,6 +3,8 @@ package org.newdevelopment.vale.authorization;
 import org.newdevelopment.vale.authorization.util.AuthContext;
 import org.newdevelopment.vale.authorization.util.ThreadLocalAuthContext;
 import org.newdevelopment.vale.data.exception.AuthorizationException;
+import org.newdevelopment.vale.data.model.CreateAcctRequest;
+import org.newdevelopment.vale.data.model.User;
 import org.newdevelopment.vale.data.model.UserAuth;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

@@ -1,0 +1,31 @@
+#login-header {
+    position: fixed;
+    left: 10vh;
+    top: 5vh;
+    font-size: 120px;
+    font-family: 'Marcellus SC', sans-serif;
+}
+
+#register-header {
+    position: fixed;
+    right: 10vh;
+    top: 5vh;
+    font-size: 120px;
+    font-family: 'Marcellus SC', sans-serif;
+}
+
+#login-form {
+    position: fixed;
+    left: 10vh;
+    top: 15vh;
+    font-size: 30px;
+    text-align: left;
+}
+
+#registration-form {
+    position: fixed;
+    right: 10vh;
+    top: 15vh;
+    font-size: 30px;
+    text-align: left;
+}
