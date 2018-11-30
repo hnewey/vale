@@ -92,8 +92,9 @@
         "password": registerPassword, "passwordConfirm": registerPasswordConfirm};
 
         post("/auth/new", createAcctRequest, function (data, status) {
-            if (status == 200)
+            if (status === "success") {
                 window.location.href = "/vale_landing.html";
+            }
         });
     }
 
@@ -104,7 +105,7 @@
         var credentials = {"username": username, "password": password};
 
         post("/auth", credentials, function (data, status) {
-            if (status == 200) {
+            if (status === "success") {
                 window.location.href = "/vale_landing.html";
             }
         });
@@ -120,8 +121,7 @@
             type: "POST",
             data: JSON.stringify(body),
             contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: callback
+            complete: callback
         });
     }
 </script>
